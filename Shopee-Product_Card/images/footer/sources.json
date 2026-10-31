@@ -1,0 +1,11 @@
+{
+  "registration": "https://drphone.com.vn/app/webroot/uploads/images/1693145936571.png",
+  "registry": "https://dichvucong.online.gov.vn/Website/chi-tiet-18367",
+  "payment": {
+    "mastercard": "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
+    "jcb": "https://upload.wikimedia.org/wikipedia/commons/4/40/JCB_logo.svg",
+    "amex": "https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg"
+  },
+  "brand": "https://shopee.vn/",
+  "fonts": "https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/assets/bundle.a14d8fcd3ef583b0.2023.css"
+}

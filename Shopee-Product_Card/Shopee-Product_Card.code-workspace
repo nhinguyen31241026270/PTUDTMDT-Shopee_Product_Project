@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "PTUDTMDT-Shopee_Product_Project",
+			"path": "PTUDTMDT-Shopee_Product_Project"
+		}
+	],
+	"settings": {
+		"livePreview.autoRefreshPreview": "On Changes to Saved Files",
+		"livePreview.httpHeaders": {
+			"Cache-Control": "no-store"
+		}
+	}
+}

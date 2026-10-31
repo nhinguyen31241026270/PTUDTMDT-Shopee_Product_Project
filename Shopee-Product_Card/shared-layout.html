@@ -1,0 +1,214 @@
+<!-- Header và footer dùng chung. -->
+<template id="shared-header">
+<header class="site-header" data-layout="shopee-reference">
+        <div class="header-inner">
+            <nav class="utility-bar" aria-label="Tiện ích Shopee">
+                <div class="utility-group seller-links">
+                    <a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Kênh Người Bán</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Trở thành Người bán Shopee</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a href="#footer-app">Tải ứng dụng</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <span class="connect-label">Kết nối</span>
+                    <a class="header-social header-facebook" href="https://www.facebook.com/ShopeeVN" target="_blank" rel="noopener noreferrer" aria-label="Shopee trên Facebook">f</a>
+                    <a class="header-social" href="https://www.instagram.com/shopee_vn/" target="_blank" rel="noopener noreferrer" aria-label="Shopee trên Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+                </div>
+                <div class="utility-group buyer-links">
+                    <a class="notification-link" href="https://shopee.vn/user/notifications/order" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5l-2 3Zm5 3h4"/></svg>Thông Báo</a>
+                    <a class="help-link" href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer"><span class="help-symbol" aria-hidden="true">?</span>Hỗ Trợ</a>
+                    <span class="language-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>Tiếng Việt<svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></span>
+                    <a class="register-link" href="https://shopee.vn/buyer/signup" target="_blank" rel="noopener noreferrer">Đăng Ký</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a class="login-link" href="https://shopee.vn/buyer/login" target="_blank" rel="noopener noreferrer">Đăng Nhập</a>
+                </div>
+            </nav>
+            <div class="header-main">
+                <a class="brand" href="#page-top" aria-label="Shopee - Trang chủ"><img src="images/brand/shopee-white.svg" alt="Shopee" width="192" height="65"></a>
+                <div class="search-column">
+                    <form class="search-form" action="#categories" method="get" role="search">
+                    <label class="visually-hidden" for="site-search">Tìm kiếm sản phẩm</label>
+                    <input id="site-search" type="search" name="q" placeholder="Tìm kiếm sản phẩm trên Shopee" autocomplete="off">
+                    <button type="submit" aria-label="Tìm kiếm">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </form>
+                    <nav class="header-categories" aria-label="Danh mục sản phẩm và chăm sóc khách hàng">
+                        <details class="header-menu product-menu" name="header-menu">
+                    <summary>
+                        <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span class="menu-label"><span class="catalog-long">Danh mục sản phẩm</span><span class="catalog-short">Danh mục</span></span>
+                        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                    </summary>
+                    <div class="dropdown-panel catalog-panel" role="region" aria-labelledby="catalog-title">
+                        <div class="catalog-heading"><h2 id="catalog-title">DANH MỤC</h2><button class="catalog-reset" type="button" data-category="all" data-category-label="Tất cả sản phẩm" aria-pressed="true">Tất cả sản phẩm</button></div>
+                        <div class="catalog-carousel">
+                            <div class="catalog-grid" role="group" aria-label="Danh mục sản phẩm">
+                            <button class="catalog-tile" type="button" data-category="11035567" data-category-label="Thời Trang Nam" aria-pressed="false"><img src="images/categories/11035567.png" alt="" width="88" height="88"><span>Thời Trang Nam</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035639" data-category-label="Thời Trang Nữ" aria-pressed="false"><img src="images/categories/11035639.png" alt="" width="88" height="88"><span>Thời Trang Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036030" data-category-label="Điện Thoại &amp; Phụ Kiện" aria-pressed="false"><img src="images/categories/11036030.png" alt="" width="88" height="88"><span>Điện Thoại &amp; Phụ Kiện</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036194" data-category-label="Mẹ &amp; Bé" aria-pressed="false"><img src="images/categories/11036194.png" alt="" width="88" height="88"><span>Mẹ &amp; Bé</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036132" data-category-label="Thiết Bị Điện Tử" aria-pressed="false"><img src="images/categories/11036132.png" alt="" width="88" height="88"><span>Thiết Bị Điện Tử</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036670" data-category-label="Nhà Cửa &amp; Đời Sống" aria-pressed="false"><img src="images/categories/11036670.png" alt="" width="88" height="88"><span>Nhà Cửa &amp; Đời Sống</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035954" data-category-label="Máy Tính &amp; Laptop" aria-pressed="false"><img src="images/categories/11035954.png" alt="" width="88" height="88"><span>Máy Tính &amp; Laptop</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036279" data-category-label="Sắc Đẹp" aria-pressed="false"><img src="images/categories/11036279.png" alt="" width="88" height="88"><span>Sắc Đẹp</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036101" data-category-label="Máy Ảnh &amp; Máy Quay Phim" aria-pressed="false"><img src="images/categories/11036101.png" alt="" width="88" height="88"><span>Máy Ảnh &amp; Máy Quay Phim</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036345" data-category-label="Sức Khỏe" aria-pressed="false"><img src="images/categories/11036345.png" alt="" width="88" height="88"><span>Sức Khỏe</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035788" data-category-label="Đồng Hồ" aria-pressed="false"><img src="images/categories/11035788.png" alt="" width="88" height="88"><span>Đồng Hồ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035825" data-category-label="Giày Dép Nữ" aria-pressed="false"><img src="images/categories/11035825.png" alt="" width="88" height="88"><span>Giày Dép Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035801" data-category-label="Giày Dép Nam" aria-pressed="false"><img src="images/categories/11035801.png" alt="" width="88" height="88"><span>Giày Dép Nam</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035761" data-category-label="Túi Ví Nữ" aria-pressed="false"><img src="images/categories/11035761.png" alt="" width="88" height="88"><span>Túi Ví Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036971" data-category-label="Thiết Bị Điện Gia Dụng" aria-pressed="false"><img src="images/categories/11036971.png" alt="" width="88" height="88"><span>Thiết Bị Điện Gia Dụng</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035853" data-category-label="Phụ Kiện &amp; Trang Sức Nữ" aria-pressed="false"><img src="images/categories/11035853.png" alt="" width="88" height="88"><span>Phụ Kiện &amp; Trang Sức Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035478" data-category-label="Thể Thao &amp; Du Lịch" aria-pressed="false"><img src="images/categories/11035478.png" alt="" width="88" height="88"><span>Thể Thao &amp; Du Lịch</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036525" data-category-label="Bách Hóa Online" aria-pressed="false"><img src="images/categories/11036525.png" alt="" width="88" height="88"><span>Bách Hóa Online</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036793" data-category-label="Ô Tô &amp; Xe Máy &amp; Xe Đạp" aria-pressed="false"><img src="images/categories/11036793.png" alt="" width="88" height="88"><span>Ô Tô &amp; Xe Máy &amp; Xe Đạp</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036863" data-category-label="Nhà Sách Online" aria-pressed="false"><img src="images/categories/11036863.png" alt="" width="88" height="88"><span>Nhà Sách Online</span></button>
+                            </div>
+                            <button class="catalog-arrow catalog-prev" type="button" data-scroll="-1" aria-label="Xem danh mục trước" hidden>‹</button>
+                            <button class="catalog-arrow catalog-next" type="button" data-scroll="1" aria-label="Xem danh mục tiếp theo" hidden>›</button>
+                        </div>
+                    </div>
+                </details>
+                        <span class="utility-divider" aria-hidden="true"></span>
+                        <details class="header-menu support-menu" name="header-menu">
+                    <summary>
+                        <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-1 .7-1.7 1.2-1.7 2.7M12 17h.01"/></svg>
+                        <span class="menu-label"><span class="support-long">Chăm sóc khách hàng</span><span class="support-short">Chăm sóc KH</span></span>
+                        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                    </summary>
+                    <div class="dropdown-panel support-panel" role="region" aria-labelledby="support-title">
+                        <h2 id="support-title">Danh mục</h2>
+                        <div class="support-grid">
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79180" target="_blank" rel="noopener noreferrer"><span class="support-icon shopping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v10h14V10M3 10l2-7h14l2 7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0M9 20v-6h6v6"/></svg></span><span>Mua Sắm Cùng Shopee</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79336" target="_blank" rel="noopener noreferrer"><span class="support-icon offers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11V3Z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span><span>Khuyến Mãi &amp; Ưu Đãi</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79197" target="_blank" rel="noopener noreferrer"><span class="support-icon payment"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M5 6V3h13M14 10h-3a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-3M12 9v1m0 8v1"/></svg></span><span>Thanh Toán</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79308" target="_blank" rel="noopener noreferrer"><span class="support-icon shipping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h13v13H2V5Zm13 5h4l3 4v4h-7M15 10v5h7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></span><span>Đơn Hàng &amp; Vận Chuyển</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/189473" target="_blank" rel="noopener noreferrer"><span class="support-icon returns"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 17V7m-3 3 3-3 3 3m5-3v10m-3-3 3 3 3-3"/></svg></span><span>Trả Hàng &amp; Hoàn Tiền</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79647" target="_blank" rel="noopener noreferrer"><span class="support-icon information"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 21H3V3h14v7M6 7h8M6 11h5"/><circle cx="17" cy="17" r="6"/><path d="M15.5 15.5a1.5 1.5 0 1 1 2.5 1c-.6.4-1 .7-1 1.5M17 20h.01"/></svg></span><span>Thông Tin Chung</span></a>
+                        </div>
+                    </div>
+                </details>
+                    </nav>
+                </div>
+                <a class="cart-link" href="#categories" aria-label="Giỏ hàng">
+                    <svg viewBox="0 0 32 32" aria-hidden="true">
+                        <path d="M4 6h3l3.2 15.1a2 2 0 0 0 2 1.6h12.2a2 2 0 0 0 1.9-1.4L29 11H9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        <circle cx="13" cy="27" r="1.8" fill="currentColor"/>
+                        <circle cx="24" cy="27" r="1.8" fill="currentColor"/>
+                    </svg>
+                    
+                </a>
+            </div>
+        </div>
+    </header>
+</template>
+<template id="shared-footer">
+<footer class="site-footer" id="site-footer">
+        <div class="footer-inner">
+            <div class="footer-columns">
+                <section class="footer-column" aria-labelledby="footer-service">
+                    <h2 id="footer-service">Chăm sóc khách hàng</h2>
+                    <ul>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Trung tâm trợ giúp</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79180" target="_blank" rel="noopener noreferrer">Hướng dẫn mua hàng</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79197" target="_blank" rel="noopener noreferrer">Hướng dẫn thanh toán</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79308" target="_blank" rel="noopener noreferrer">Theo dõi đơn hàng</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77250" target="_blank" rel="noopener noreferrer">Vận chuyển</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/189473" target="_blank" rel="noopener noreferrer">Trả hàng &amp; hoàn tiền</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79336" target="_blank" rel="noopener noreferrer">Voucher &amp; mã giảm giá</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79647" target="_blank" rel="noopener noreferrer">Câu hỏi thường gặp</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Liên hệ Shopee</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Chính sách bảo hành</a></li>
+                    </ul>
+                </section>
+                <section class="footer-column" aria-labelledby="footer-about">
+                    <h2 id="footer-about">Về Shopee</h2>
+                    <ul>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79422" target="_blank" rel="noopener noreferrer">Giới thiệu về Shopee</a></li>
+                        <li><a href="https://shopee.vn/blog/" target="_blank" rel="noopener noreferrer">Shopee Blog</a></li>
+                        <li><a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Kênh người bán</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77243" target="_blank" rel="noopener noreferrer">Điều khoản dịch vụ</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77244" target="_blank" rel="noopener noreferrer">Chính sách bảo mật</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77251" target="_blank" rel="noopener noreferrer">Chính sách trả hàng</a></li>
+                    </ul>
+                </section>
+                <div class="footer-column footer-partners">
+                    <section aria-labelledby="footer-payment">
+                        <h2 id="footer-payment">Thanh toán</h2>
+                        <ul class="partner-grid" aria-label="Các phương thức thanh toán">
+                            <li class="partner-badge visa">VISA</li>
+                            <li class="partner-badge"><img src="images/footer/mastercard.svg" alt="Mastercard" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge"><img src="images/footer/jcb.svg" alt="JCB" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge"><img src="images/footer/amex.svg" alt="American Express" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge cod">COD</li>
+                            <li class="partner-badge installment">TRẢ GÓP <strong>0%</strong></li>
+                            <li class="partner-badge shopeepay">S<span>Pay</span></li>
+                            <li class="partner-badge paylater">SPayLater</li>
+                            <li class="partner-badge unionpay">UnionPay</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="footer-shipping">
+                        <h2 id="footer-shipping">Đơn vị vận chuyển</h2>
+                        <ul class="partner-grid" aria-label="Các đơn vị vận chuyển">
+                            <li class="partner-badge spx">SPX<small>EXPRESS</small></li>
+                            <li class="partner-badge ghn">GHN</li>
+                            <li class="partner-badge viettel">Viettel<small>POST</small></li>
+                            <li class="partner-badge vnpost">Vietnam<small>POST</small></li>
+                            <li class="partner-badge grab">Grab<small>Express</small></li>
+                            <li class="partner-badge be">be</li>
+                            <li class="partner-badge ahamove">Ahamove</li>
+                            <li class="partner-badge best">BEST<small>EXPRESS</small></li>
+                            <li class="partner-badge greensm">GREEN SM</li>
+                        </ul>
+                    </section>
+                </div>
+                <section class="footer-column" aria-labelledby="footer-social">
+                    <h2 id="footer-social">Theo dõi Shopee</h2>
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/ShopeeVN" target="_blank" rel="noopener noreferrer"><span class="social-symbol facebook" aria-hidden="true">f</span>Facebook</a></li>
+                        <li><a href="https://www.instagram.com/shopee_vn/" target="_blank" rel="noopener noreferrer"><svg class="social-symbol" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7"/></svg>Instagram</a></li>
+                        <li><a href="https://www.linkedin.com/company/shopee/" target="_blank" rel="noopener noreferrer"><span class="social-symbol linkedin" aria-hidden="true">in</span>LinkedIn</a></li>
+                    </ul>
+                </section>
+                <section class="footer-column" aria-labelledby="footer-app">
+                    <h2 id="footer-app">Tải ứng dụng Shopee</h2>
+                    <div class="app-download">
+                        <a class="app-qr" href="https://shopee.vn/web" target="_blank" rel="noopener noreferrer" aria-label="Tải ứng dụng Shopee"><img src="images/footer/app-qr.png" width="104" height="104" alt="Mã QR mở trang tải ứng dụng Shopee" loading="lazy"></a>
+                        <div class="app-stores">
+                            <a class="store-badge" href="https://apps.apple.com/vn/app/id959841449" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.9 12.7c0-2 1.6-3 1.7-3.1-1-1.5-2.5-1.7-3.1-1.7-1.3-.1-2.5.8-3.2.8s-1.7-.8-2.8-.7c-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.3 1 8.4.7 1 1.4 2 2.5 2s1.5-.7 2.8-.7 1.7.7 2.9.7 1.8-.9 2.4-1.9c.8-1.1 1.1-2.2 1.1-2.3-.1 0-1.9-.8-1.9-3.5ZM14.9 6.5c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.7 1.4-.6.6-1.1 1.7-.9 2.7 1 .1 2.1-.5 2.7-1.3Z" fill="currentColor"/></svg><span>App Store</span></a>
+                            <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.shopee.vn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 3 10 9L4 21Z" fill="#32b8e8"/><path d="m4 3 13 7-3 2Z" fill="#39cb76"/><path d="m14 12 3-2 4 2-4 2Z" fill="#f9cd45"/><path d="m4 21 10-9 3 2Z" fill="#ed5164"/></svg><span>Google Play</span></a>
+                            <a class="store-badge" href="https://shopee.vn/web" target="_blank" rel="noopener noreferrer"><span class="huawei-icon" aria-hidden="true">H</span><span>AppGallery</span></a>
+                        </div>
+                    </div>
+                    <p class="download-note">Quét mã để tải ứng dụng.</p>
+                </section>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Shopee. Tất cả các quyền được bảo lưu.</p>
+                <p class="footer-regions">Quốc gia &amp; Khu vực: <span>Argentina</span><span class="region-separator" aria-hidden="true">|</span><span>Singapore</span><span class="region-separator" aria-hidden="true">|</span><span>Indonesia</span><span class="region-separator" aria-hidden="true">|</span><span>Thái Lan</span><span class="region-separator" aria-hidden="true">|</span><span>Malaysia</span><span class="region-separator" aria-hidden="true">|</span><span>Việt Nam</span><span class="region-separator" aria-hidden="true">|</span><span>Philippines</span><span class="region-separator" aria-hidden="true">|</span><span>Brazil</span><span class="region-separator" aria-hidden="true">|</span><span>México</span><span class="region-separator" aria-hidden="true">|</span><span>Đài Loan</span></p>
+            </div>
+        </div>
+        <div class="footer-legal">
+            <div class="footer-inner">
+                <nav class="policy-links" aria-label="Chính sách Shopee">
+                    <a href="https://help.shopee.vn/portal/4/article/77244" target="_blank" rel="noopener noreferrer">Chính sách bảo mật</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77243" target="_blank" rel="noopener noreferrer">Quy chế hoạt động</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77250" target="_blank" rel="noopener noreferrer">Chính sách vận chuyển</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77251" target="_blank" rel="noopener noreferrer">Chính sách trả hàng &amp; hoàn tiền</a>
+                </nav>
+                <div class="footer-certifications">
+                    <a class="bct-badge" href="https://dichvucong.online.gov.vn/Website/chi-tiet-18367" target="_blank" rel="noopener noreferrer" aria-label="Thông tin đăng ký website Shopee tại Bộ Công Thương"></a>
+                    <a class="bct-badge" href="https://dichvucong.online.gov.vn/WebReport/OwnerDetail/413010" target="_blank" rel="noopener noreferrer" aria-label="Thông tin chủ sở hữu website và ứng dụng Shopee"></a>
+                </div>
+                <p class="company-name">Công ty TNHH Shopee</p>
+                <p>Địa chỉ: Tầng 4-5-6, Tòa nhà Capital Place, số 29 đường Liễu Giai, Phường Ngọc Hà, Thành phố Hà Nội, Việt Nam.</p>
+                <p>Chăm sóc khách hàng: <a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Trung tâm trợ giúp Shopee</a></p>
+                <p>Mã số doanh nghiệp: 0106773786, cấp lần đầu ngày 10/02/2015.</p>
+            </div>
+        </div>
+    </footer>
+</template>

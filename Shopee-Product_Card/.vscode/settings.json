@@ -1,0 +1,6 @@
+{
+    "livePreview.autoRefreshPreview": "On Changes to Saved Files",
+    "livePreview.httpHeaders": {
+        "Cache-Control": "no-store"
+    }
+}

@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee - Mua sắm theo danh mục</title>
+    <style>
+@font-face { font-family: Roboto; src: url('images/fonts/roboto-regular.woff') format('woff'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: Roboto; src: url('images/fonts/roboto-medium.woff') format('woff'); font-weight: 500 600; font-style: normal; font-display: swap; }
+@font-face { font-family: Roboto; src: url('images/fonts/roboto-bold.woff') format('woff'); font-weight: 700; font-style: normal; font-display: swap; }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+}
+body {
+    min-width: 320px;
+    background: #f7f5f2;
+    color: #382f29;
+    font-family: Roboto, Arial, sans-serif;
+    line-height: 1.5;
+}
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+.product-name {
+    font-weight: 500;
+}
+
+.product-price {
+    font-weight: 800;
+    color: #ee4d2d;
+}
+.site-header { position: sticky; top: 0; z-index: 10; background: linear-gradient(180deg, #f53d2d, #f63); color: #fff; }
+.header-inner { position: relative; width: min(100% - 64px, 1280px); margin: 0 auto; }
+.utility-bar { display: flex; min-height: 34px; align-items: center; justify-content: space-between; gap: 20px; font-size: 13px; }
+.utility-group { display: flex; align-items: center; gap: 10px; }
+.utility-group > a { color: inherit; text-decoration: none; white-space: nowrap; }
+.utility-group > a:hover { opacity: .8; }
+.utility-divider { width: 1px; height: 13px; flex-shrink: 0; background: rgb(255 255 255 / 40%); }
+.seller-links { gap: 8px; }
+.buyer-links { gap: 14px; }
+.buyer-links > a, .language-label { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.buyer-links svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.buyer-links .register-link, .buyer-links .login-link { font-weight: 500; }
+.help-symbol { display: grid; width: 16px; height: 16px; place-items: center; border: 1.5px solid currentColor; border-radius: 50%; font-size: 12px; }
+.header-social { display: grid; width: 17px; height: 17px; place-items: center; }
+.header-social svg { display: block; width: 19px; height: 19px; }
+.header-facebook { padding-top: 2px; border-radius: 50%; background: #fff; color: #f53d2d !important; font-family: Arial, sans-serif; font-size: 17px; font-weight: 700; line-height: 1; }
+.header-menu { position: static; }
+.header-menu summary { display: flex; min-height: 28px; align-items: center; gap: 6px; padding: 0; color: #fff; list-style: none; cursor: pointer; user-select: none; white-space: nowrap; }
+.header-menu summary::-webkit-details-marker { display: none; }
+.header-menu summary:hover { opacity: .8; }
+.header-menu[open] summary { text-decoration: underline; text-underline-offset: 4px; }
+.menu-label { font-size: 13px; font-weight: 400; line-height: 1.3; }
+.utility-icon, .chevron { width: 15px; height: 15px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.chevron, .buyer-links .chevron { width: 10px; height: 10px; transition: transform 160ms ease; }
+.header-menu[open] .chevron { transform: rotate(180deg); }
+.support-short, .catalog-short { display: none; }
+
+.dropdown-panel {
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: min(530px, calc(100dvh - 154px));
+    overflow: auto;
+    border: 1px solid #ededed;
+    background: #fff;
+    color: #222;
+    box-shadow: 0 10px 28px rgb(0 0 0 / 14%);
+}
+
+.catalog-heading {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+}
+
+.catalog-heading h2 {
+    color: #777;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.catalog-reset {
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: #ee4d2d;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.catalog-carousel { position: relative; }
+
+.catalog-grid {
+    display: grid;
+    grid-template-rows: repeat(2, 174px);
+    grid-auto-flow: column;
+    grid-auto-columns: 10%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: #ddd #fff;
+    border-top: 1px solid #f0f0f0;
+}
+
+.catalog-tile {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    flex-direction: column;
+    gap: 9px;
+    padding: 16px 7px 12px;
+    border: 0;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    color: #222;
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.45;
+    text-align: center;
+    scroll-snap-align: start;
+    cursor: pointer;
+    transition: box-shadow 160ms ease, color 160ms ease;
+}
+
+.catalog-tile img {
+    display: block;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+.catalog-tile:hover,
+.catalog-tile[aria-pressed="true"] {
+    z-index: 1;
+    color: #ee4d2d;
+    box-shadow: inset 0 0 0 1px #ee4d2d, 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.catalog-arrow {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    transform: translateY(-50%);
+    border: 1px solid #eee;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 13%);
+    color: #777;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.catalog-prev { left: 5px; }
+.catalog-next { right: 5px; }
+
+.support-panel { padding: 28px 30px 32px; }
+
+.support-panel h2 {
+    margin-bottom: 22px;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.support-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 13px;
+}
+
+.support-tile {
+    display: flex;
+    min-width: 0;
+    min-height: 90px;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 20px;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+    color: #222;
+    font-size: 17px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: border-color 160ms ease, background 160ms ease;
+}
+
+.support-tile:hover {
+    border-color: #ee4d2d;
+    background: #fffaf8;
+}
+
+.support-icon {
+    display: grid;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 50%;
+    background: #fff2f2;
+    color: #ff543d;
+}
+
+.support-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.support-icon.shopping { background: #ffebf0; color: #ed1642; }
+.support-icon.shipping { background: #e9f7f5; color: #24b3a5; }
+.support-icon.information { background: #e9f0fb; color: #1d64c8; }
+
+.site-header a:focus-visible,
+.site-header summary:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+    border-radius: 2px;
+}
+
+.dropdown-panel a:focus-visible,
+.dropdown-panel button:focus-visible {
+    outline: 2px solid #ee4d2d;
+    outline-offset: -2px;
+}
+
+.header-main { display: grid; grid-template-columns: 200px minmax(0, 1fr) 100px; align-items: center; gap: 16px; padding: 14px 0 8px; }
+.brand { display: block; width: 190px; color: #fff; text-decoration: none; }
+.brand img { display: block; width: 190px; height: auto; }
+.search-column { min-width: 0; }
+.search-form { display: flex; height: 42px; min-width: 0; align-items: center; gap: 6px; padding: 3px; border-radius: 2px; background: #fff; box-shadow: 0 1px 2px rgb(0 0 0 / 12%); }
+.search-form:focus-within { outline: 2px solid rgb(255 255 255 / 65%); outline-offset: 2px; }
+.search-form input { width: 100%; min-width: 0; height: 100%; padding: 0 12px; border: 0; outline: 0; color: #333; font: inherit; font-size: 14px; }
+.search-form input::placeholder { color: #888; }
+.search-form button { display: grid; width: 60px; height: 36px; flex-shrink: 0; place-items: center; border: 0; border-radius: 2px; background: #fb5533; color: #fff; cursor: pointer; }
+.search-form button:hover { background: #fc6a4a; }
+.search-form button:focus-visible { outline: 2px solid #a72c16; outline-offset: -3px; }
+.search-form button svg { width: 18px; height: 18px; }
+.header-categories { display: flex; min-height: 28px; align-items: center; gap: 15px; padding-top: 2px; }
+.header-categories > .utility-divider { height: 12px; opacity: .65; }
+.cart-link { display: flex; min-height: 48px; align-items: center; justify-content: center; color: #fff; text-decoration: none; }
+.cart-link svg { width: 32px; height: 32px; }
+.cart-link:hover { opacity: .8; }
+
+.search-status:not(:empty) {
+    margin: -10px 0 20px;
+    color: #756b63;
+    font-size: 14px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.empty-state {
+    padding: 60px 20px;
+    border: 1px solid #e8dfd7;
+    border-radius: 12px;
+    background: #fff;
+    text-align: center;
+}
+
+.empty-state h2 {
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+    color: #84796f;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
+
+.container {
+    width: min(100% - 64px, 1280px);
+    margin: 0 auto;
+    padding: 46px 0 12px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.section-heading h1 {
+    margin-bottom: 6px;
+    font-size: clamp(24px, 2vw, 32px);
+    line-height: 1.25;
+}
+
+.section-heading p {
+    color: #84796f;
+    font-size: 15px;
+}
+
+.view-all {
+    flex-shrink: 0;
+    margin-bottom: 2px;
+    color: #8a552d;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.view-all span {
+    font-size: 18px;
+}
+
+.view-all:hover {
+    color: #bd6b31;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.category-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e8dfd7;
+    border-radius: 8px;
+    background: #fff;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgb(61 43 29 / 9%);
+}
+
+.image-box {
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: #eeeae5;
+}
+
+.image-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 250ms ease;
+}
+
+.category-card:hover .image-box img {
+    transform: scale(1.035);
+}
+
+.product-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.product-info h2 {
+    display: -webkit-box;
+    min-height: 39px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: 600;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.product-description {
+    display: -webkit-box;
+    min-height: 36px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    color: #84796f;
+    font-size: 12px;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.price-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.old-price {
+    color: #999;
+    font-size: 13px;
+    text-decoration: line-through;
+}
+
+.discount-label {
+    padding: 1px 5px;
+    border-radius: 2px;
+    background: #fff0ec;
+    color: #ee4d2d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.price-review-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 6px;
+    margin: 3px 0 10px;
+}
+
+.current-price {
+    margin: 0;
+    color: #ee4d2d;
+    font-size: 19px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.customer-review {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding-left: 9px;
+    border-left: 2px solid #f5c2b5;
+    color: #756b63;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.customer-review span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.customer-review cite {
+    color: #a09891;
+    font-size: 10px;
+    font-style: normal;
+}
+
+.product-rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 3px 5px;
+    min-height: 32px;
+    color: #756b63;
+    font-size: 10px;
+}
+
+.stars {
+    color: #f5a623;
+    font-size: 13px;
+    letter-spacing: -1px;
+}
+
+.unrated-stars {
+    color: #aaa;
+    font-size: 13px;
+    letter-spacing: -1px;
+}
+
+.demo-note {
+    margin: -14px 0 18px;
+    color: #84796f;
+    font-size: 12px;
+}
+
+.rating-divider {
+    color: #d3ccc5;
+}
+
+.product-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 10px;
+}
+
+.action-button {
+    min-height: 38px;
+    padding: 7px 8px;
+    border: 1px solid #ee4d2d;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+.view-button {
+    background: #fff;
+    color: #ee4d2d;
+}
+
+.view-button:hover {
+    background: #fff3ef;
+}
+
+.buy-button {
+    background: #ee4d2d;
+    color: #fff;
+}
+
+.buy-button:hover {
+    background: #d94325;
+}
+
+.site-footer {
+    margin-top: 60px;
+    border-top: 3px solid #ee4d2d;
+    background: #fbfbfb;
+    color: #666;
+    font-size: 12px;
+}
+
+#categories, #site-footer { scroll-margin-top: 165px; }
+
+.footer-inner {
+    width: min(100% - 64px, 1280px);
+    margin: 0 auto;
+}
+
+.footer-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.15fr .85fr 1.25fr;
+    gap: 28px;
+    padding: 52px 0 40px;
+}
+
+.footer-column { min-width: 0; }
+.footer-column h2 {
+    margin-bottom: 20px;
+    color: #222;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+.footer-column ul { display: grid; gap: 11px; list-style: none; }
+.site-footer a { color: inherit; text-decoration: none; }
+.site-footer a:hover { color: #ee4d2d; }
+.site-footer a:focus-visible { outline: 2px solid #ee4d2d; outline-offset: 4px; }
+.footer-partners { display: flex; flex-direction: column; gap: 25px; }
+.footer-partners h2 { margin-bottom: 15px; }
+.footer-column .partner-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.partner-badge {
+    display: flex;
+    min-width: 0;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e8e8e8;
+    border-radius: 3px;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+}
+.partner-badge.amex { color: #1988bb; font-size: 9px; line-height: 1.05; text-align: center; }
+.partner-badge.installment { gap: 2px; color: #f15a2b; font-size: 9px; }
+.installment strong { font-size: 17px; }
+.partner-badge.unionpay { color: #197a8b; font-size: 11px; font-style: italic; }
+.partner-badge.be { color: #1d5787; font-size: 23px; font-weight: 400; }
+.partner-badge.ahamove { color: #ed762b; font-size: 10px; }
+.partner-badge.greensm { color: #36bbb4; font-size: 9px; }
+.huawei-icon { display: grid; width: 18px; height: 20px; flex-shrink: 0; place-items: center; background: #d12638; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 700; }
+.partner-badge svg { width: 44px; height: 29px; }
+.partner-badge img { display: block; width: 48px; height: 27px; object-fit: contain; }
+.partner-badge small { font-size: 7px; letter-spacing: .6px; }
+.visa { color: #18347c; font-size: 20px; font-style: italic; }
+.jcb { gap: 1px; }
+.jcb span { padding: 4px 2px; border-radius: 3px; background: #185393; color: #fff; font-size: 15px; font-style: italic; }
+.jcb span:nth-child(2) { background: #d51c39; }
+.jcb span:nth-child(3) { background: #26984c; }
+.cod, .shopeepay, .paylater, .spx, .ghn { color: #ee4d2d; }
+.cod { font-size: 13px; }
+.shopeepay { gap: 2px; font-size: 17px; }
+.shopeepay span { font-size: 14px; font-weight: 400; }
+.paylater { font-size: 10px; }
+.spx, .viettel, .vnpost, .grab, .best { flex-direction: column; gap: 2px; }
+.spx { font-size: 19px; font-style: italic; }
+.ghn { color: #ed710e; font-size: 18px; font-style: italic; }
+.viettel { color: #cf1c37; font-size: 13px; }
+.vnpost { color: #ce920e; font-size: 11px; }
+.grab { color: #119e59; font-size: 14px; }
+.best { color: #315683; font-size: 13px; }
+.social-links a { display: inline-flex; align-items: center; gap: 10px; }
+.social-symbol { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.facebook, .linkedin { display: grid; place-items: center; border-radius: 3px; background: #777; color: #fff; font-family: Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 1; }
+.facebook { border-radius: 50%; padding-top: 3px; }
+.linkedin { font-size: 12px; }
+.app-download { display: flex; align-items: center; gap: 10px; }
+.app-qr { padding: 6px; border: 1px solid #e7e7e7; border-radius: 4px; background: #fff; }
+.app-qr img { display: block; width: 88px; height: 88px; }
+.app-stores { display: grid; flex: 1; gap: 7px; }
+.store-badge { display: flex; min-width: 101px; min-height: 29px; align-items: center; gap: 5px; padding: 5px 8px; border: 1px solid #e7e7e7; border-radius: 4px; background: #fff; color: #333 !important; }
+.store-badge svg { width: 18px; height: 18px; flex-shrink: 0; }
+.store-badge > span { display: flex; flex-direction: column; font-size: 11px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+.store-badge small { color: #888; font-size: 8px; font-weight: 400; }
+.download-note { margin-top: 12px; color: #999; font-size: 12px; }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 24px 0; border-top: 1px solid #e6e6e6; font-size: 12px; }
+.footer-regions { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.footer-regions .region-separator { color: #ccc; }
+.footer-legal { padding: 40px 0; border-top: 1px solid #ededed; background: #f5f5f5; text-align: center; }
+.policy-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px 0; margin-bottom: 24px; text-transform: uppercase; font-size: 12px; }
+.policy-links a { padding: 0 22px; border-right: 1px solid #ddd; }
+.policy-links a:last-child { border: 0; }
+.footer-legal p { margin: 7px auto; font-size: 12px; line-height: 1.7; }
+.footer-legal .company-name { margin-bottom: 15px; color: #555; font-size: 14px; font-weight: 500; }
+
+@media (max-width: 1100px) {
+    .category-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .footer-columns { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+    .footer-column:last-child { grid-column: span 2; max-width: 270px; }
+}
+
+@media (max-width: 1100px) {
+    .seller-links a:nth-of-type(2), .seller-links .utility-divider:nth-of-type(n+2), .connect-label, .header-social { display: none; }
+    .utility-bar { font-size: 12px; }
+    .buyer-links { gap: 10px; }
+    .header-main { grid-template-columns: 165px minmax(0, 1fr) 60px; gap: 18px; }
+    .brand, .brand img { width: 158px; }
+    .catalog-grid { grid-auto-columns: 20%; }
+    .support-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .support-tile { gap: 12px; padding: 16px; font-size: 15px; }
+}
+
+@media (max-width: 720px) {
+    #categories, #site-footer { scroll-margin-top: 185px; }
+    .header-inner { width: calc(100% - 32px); }
+    .seller-links { display: none; }
+    .buyer-links { width: 100%; gap: 12px; }
+    .buyer-links .notification-link, .language-label { display: none; }
+    .help-link { margin-right: auto; }
+    .utility-bar { min-height: 32px; font-size: 12px; }
+    .support-long, .catalog-long { display: none; }
+    .support-short, .catalog-short { display: inline; }
+    .menu-label { font-size: 12px; }
+    .header-main { grid-template-columns: minmax(0, 1fr) 40px; gap: 10px; padding: 10px 0 8px; }
+    .brand { grid-column: 1; grid-row: 1; }
+    .brand, .brand img { width: 132px; }
+    .cart-link { grid-column: 2; grid-row: 1; }
+    .search-column { grid-column: 1 / -1; grid-row: 2; }
+    .search-form { height: 42px; }
+    .search-form input { padding: 0 9px; font-size: 13px; }
+    .search-form button { width: 50px; height: 36px; }
+    .header-categories { gap: 12px; }
+    .dropdown-panel { max-height: calc(100dvh - 195px); }
+    .catalog-heading { min-height: 62px; padding: 16px; }
+    .catalog-heading h2 { font-size: 16px; }
+    .catalog-reset { font-size: 11px; }
+    .catalog-grid { grid-template-rows: repeat(2, 148px); grid-auto-columns: 112px; }
+    .catalog-tile { gap: 6px; padding: 12px 7px; font-size: 12px; }
+    .catalog-tile img { width: 76px; height: 76px; }
+    .support-panel { padding: 20px 16px; }
+    .support-panel h2 { margin-bottom: 16px; font-size: 22px; }
+    .support-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .support-tile { min-height: 94px; flex-direction: column; justify-content: center; gap: 10px; padding: 14px 8px; font-size: 13px; text-align: center; }
+    .support-icon { width: 44px; height: 44px; }
+    .footer-inner { width: calc(100% - 32px); }
+    .footer-columns { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 22px; padding: 32px 0; }
+    .footer-column:last-child { grid-column: 1 / -1; max-width: 280px; }
+    .footer-column h2 { margin-bottom: 16px; }
+    .footer-bottom { gap: 12px; font-size: 11px; }
+    .footer-legal { padding: 28px 0; }
+    .policy-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; font-size: 10px; }
+    .policy-links a { padding: 0; border: 0; }
+    .footer-legal p { font-size: 11px; }
+}
+
+@media (max-width: 900px) {
+    .category-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .container {
+        padding-top: 34px;
+    }
+}
+
+@media (max-width: 600px) {
+    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+    .support-long { display: none; }
+    .support-short { display: inline; }
+    .container {
+        width: min(100% - 32px, 420px);
+        padding-top: 28px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .section-heading p {
+        max-width: 270px;
+        font-size: 13px;
+    }
+
+    .view-all {
+        margin-top: 6px;
+        font-size: 12px;
+    }
+
+    .category-grid {
+        gap: 12px;
+    }
+
+    .category-card {
+        border-radius: 8px;
+    }
+
+    .product-info {
+        padding: 9px;
+    }
+
+    .product-info h2 {
+        font-size: 13px;
+    }
+
+    .product-description {
+        min-height: 33px;
+        margin-bottom: 7px;
+        font-size: 11px;
+    }
+
+    .current-price {
+        font-size: 18px;
+    }
+
+    .price-review-row {
+        grid-template-columns: 1fr;
+        align-items: start;
+        gap: 5px;
+    }
+
+    .customer-review {
+        padding-left: 7px;
+        font-size: 10px;
+    }
+
+    .customer-review cite {
+        font-size: 9px;
+    }
+
+    .product-rating {
+        gap: 4px;
+        font-size: 10px;
+    }
+}
+
+.footer-certifications { display: flex; align-items: center; justify-content: center; gap: 36px; margin: 28px 0 12px; }
+.bct-badge { display: block; width: 132px; height: 48px; background: url("images/footer/registration-badges.png") no-repeat left top / 192px 96px; mix-blend-mode: multiply; }
+@media (max-width: 520px) { .footer-certifications { gap: 12px; } }
+
+</style>
+    
+</head>
+<body id="page-top">
+    <header class="site-header" data-layout="shopee-reference">
+        <div class="header-inner">
+            <nav class="utility-bar" aria-label="Tiện ích Shopee">
+                <div class="utility-group seller-links">
+                    <a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Kênh Người Bán</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Trở thành Người bán Shopee</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a href="#footer-app">Tải ứng dụng</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <span class="connect-label">Kết nối</span>
+                    <a class="header-social header-facebook" href="https://www.facebook.com/ShopeeVN" target="_blank" rel="noopener noreferrer" aria-label="Shopee trên Facebook">f</a>
+                    <a class="header-social" href="https://www.instagram.com/shopee_vn/" target="_blank" rel="noopener noreferrer" aria-label="Shopee trên Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+                </div>
+                <div class="utility-group buyer-links">
+                    <a class="notification-link" href="https://shopee.vn/user/notifications/order" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5l-2 3Zm5 3h4"/></svg>Thông Báo</a>
+                    <a class="help-link" href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer"><span class="help-symbol" aria-hidden="true">?</span>Hỗ Trợ</a>
+                    <span class="language-label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>Tiếng Việt<svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></span>
+                    <a class="register-link" href="https://shopee.vn/buyer/signup" target="_blank" rel="noopener noreferrer">Đăng Ký</a>
+                    <span class="utility-divider" aria-hidden="true"></span>
+                    <a class="login-link" href="https://shopee.vn/buyer/login" target="_blank" rel="noopener noreferrer">Đăng Nhập</a>
+                </div>
+            </nav>
+            <div class="header-main">
+                <a class="brand" href="#page-top" aria-label="Shopee - Trang chủ"><img src="images/brand/shopee-white.svg" alt="Shopee" width="192" height="65"></a>
+                <div class="search-column">
+                    <form class="search-form" action="#categories" method="get" role="search">
+                    <label class="visually-hidden" for="site-search">Tìm kiếm sản phẩm</label>
+                    <input id="site-search" type="search" name="q" placeholder="Tìm kiếm sản phẩm trên Shopee" autocomplete="off">
+                    <button type="submit" aria-label="Tìm kiếm">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"/>
+                        </svg>
+                    </button>
+                </form>
+                    <nav class="header-categories" aria-label="Danh mục sản phẩm và chăm sóc khách hàng">
+                        <details class="header-menu product-menu" name="header-menu">
+                    <summary>
+                        <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                        <span class="menu-label"><span class="catalog-long">Danh mục sản phẩm</span><span class="catalog-short">Danh mục</span></span>
+                        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                    </summary>
+                    <div class="dropdown-panel catalog-panel" role="region" aria-labelledby="catalog-title">
+                        <div class="catalog-heading"><h2 id="catalog-title">DANH MỤC</h2><button class="catalog-reset" type="button" data-category="all" data-category-label="Tất cả sản phẩm" aria-pressed="true">Tất cả sản phẩm</button></div>
+                        <div class="catalog-carousel">
+                            <div class="catalog-grid" role="group" aria-label="Danh mục sản phẩm">
+                            <button class="catalog-tile" type="button" data-category="11035567" data-category-label="Thời Trang Nam" aria-pressed="false"><img src="images/categories/11035567.png" alt="" width="88" height="88"><span>Thời Trang Nam</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035639" data-category-label="Thời Trang Nữ" aria-pressed="false"><img src="images/categories/11035639.png" alt="" width="88" height="88"><span>Thời Trang Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036030" data-category-label="Điện Thoại &amp; Phụ Kiện" aria-pressed="false"><img src="images/categories/11036030.png" alt="" width="88" height="88"><span>Điện Thoại &amp; Phụ Kiện</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036194" data-category-label="Mẹ &amp; Bé" aria-pressed="false"><img src="images/categories/11036194.png" alt="" width="88" height="88"><span>Mẹ &amp; Bé</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036132" data-category-label="Thiết Bị Điện Tử" aria-pressed="false"><img src="images/categories/11036132.png" alt="" width="88" height="88"><span>Thiết Bị Điện Tử</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036670" data-category-label="Nhà Cửa &amp; Đời Sống" aria-pressed="false"><img src="images/categories/11036670.png" alt="" width="88" height="88"><span>Nhà Cửa &amp; Đời Sống</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035954" data-category-label="Máy Tính &amp; Laptop" aria-pressed="false"><img src="images/categories/11035954.png" alt="" width="88" height="88"><span>Máy Tính &amp; Laptop</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036279" data-category-label="Sắc Đẹp" aria-pressed="false"><img src="images/categories/11036279.png" alt="" width="88" height="88"><span>Sắc Đẹp</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036101" data-category-label="Máy Ảnh &amp; Máy Quay Phim" aria-pressed="false"><img src="images/categories/11036101.png" alt="" width="88" height="88"><span>Máy Ảnh &amp; Máy Quay Phim</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036345" data-category-label="Sức Khỏe" aria-pressed="false"><img src="images/categories/11036345.png" alt="" width="88" height="88"><span>Sức Khỏe</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035788" data-category-label="Đồng Hồ" aria-pressed="false"><img src="images/categories/11035788.png" alt="" width="88" height="88"><span>Đồng Hồ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035825" data-category-label="Giày Dép Nữ" aria-pressed="false"><img src="images/categories/11035825.png" alt="" width="88" height="88"><span>Giày Dép Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035801" data-category-label="Giày Dép Nam" aria-pressed="false"><img src="images/categories/11035801.png" alt="" width="88" height="88"><span>Giày Dép Nam</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035761" data-category-label="Túi Ví Nữ" aria-pressed="false"><img src="images/categories/11035761.png" alt="" width="88" height="88"><span>Túi Ví Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036971" data-category-label="Thiết Bị Điện Gia Dụng" aria-pressed="false"><img src="images/categories/11036971.png" alt="" width="88" height="88"><span>Thiết Bị Điện Gia Dụng</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035853" data-category-label="Phụ Kiện &amp; Trang Sức Nữ" aria-pressed="false"><img src="images/categories/11035853.png" alt="" width="88" height="88"><span>Phụ Kiện &amp; Trang Sức Nữ</span></button>
+                            <button class="catalog-tile" type="button" data-category="11035478" data-category-label="Thể Thao &amp; Du Lịch" aria-pressed="false"><img src="images/categories/11035478.png" alt="" width="88" height="88"><span>Thể Thao &amp; Du Lịch</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036525" data-category-label="Bách Hóa Online" aria-pressed="false"><img src="images/categories/11036525.png" alt="" width="88" height="88"><span>Bách Hóa Online</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036793" data-category-label="Ô Tô &amp; Xe Máy &amp; Xe Đạp" aria-pressed="false"><img src="images/categories/11036793.png" alt="" width="88" height="88"><span>Ô Tô &amp; Xe Máy &amp; Xe Đạp</span></button>
+                            <button class="catalog-tile" type="button" data-category="11036863" data-category-label="Nhà Sách Online" aria-pressed="false"><img src="images/categories/11036863.png" alt="" width="88" height="88"><span>Nhà Sách Online</span></button>
+                            </div>
+                            <button class="catalog-arrow catalog-prev" type="button" data-scroll="-1" aria-label="Xem danh mục trước" hidden>‹</button>
+                            <button class="catalog-arrow catalog-next" type="button" data-scroll="1" aria-label="Xem danh mục tiếp theo" hidden>›</button>
+                        </div>
+                    </div>
+                </details>
+                        <span class="utility-divider" aria-hidden="true"></span>
+                        <details class="header-menu support-menu" name="header-menu">
+                    <summary>
+                        <svg class="utility-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-1 .7-1.7 1.2-1.7 2.7M12 17h.01"/></svg>
+                        <span class="menu-label"><span class="support-long">Chăm sóc khách hàng</span><span class="support-short">Chăm sóc KH</span></span>
+                        <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>
+                    </summary>
+                    <div class="dropdown-panel support-panel" role="region" aria-labelledby="support-title">
+                        <h2 id="support-title">Danh mục</h2>
+                        <div class="support-grid">
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79180" target="_blank" rel="noopener noreferrer"><span class="support-icon shopping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 10v10h14V10M3 10l2-7h14l2 7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0M9 20v-6h6v6"/></svg></span><span>Mua Sắm Cùng Shopee</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79336" target="_blank" rel="noopener noreferrer"><span class="support-icon offers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8l10 10-8 8L3 11V3Z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span><span>Khuyến Mãi &amp; Ưu Đãi</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79197" target="_blank" rel="noopener noreferrer"><span class="support-icon payment"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="2"/><path d="M5 6V3h13M14 10h-3a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-3M12 9v1m0 8v1"/></svg></span><span>Thanh Toán</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79308" target="_blank" rel="noopener noreferrer"><span class="support-icon shipping"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h13v13H2V5Zm13 5h4l3 4v4h-7M15 10v5h7"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg></span><span>Đơn Hàng &amp; Vận Chuyển</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/189473" target="_blank" rel="noopener noreferrer"><span class="support-icon returns"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 17V7m-3 3 3-3 3 3m5-3v10m-3-3 3 3 3-3"/></svg></span><span>Trả Hàng &amp; Hoàn Tiền</span></a>
+                            <a class="support-tile" href="https://help.shopee.vn/portal/4/article/79647" target="_blank" rel="noopener noreferrer"><span class="support-icon information"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 21H3V3h14v7M6 7h8M6 11h5"/><circle cx="17" cy="17" r="6"/><path d="M15.5 15.5a1.5 1.5 0 1 1 2.5 1c-.6.4-1 .7-1 1.5M17 20h.01"/></svg></span><span>Thông Tin Chung</span></a>
+                        </div>
+                    </div>
+                </details>
+                    </nav>
+                </div>
+                <a class="cart-link" href="#categories" aria-label="Giỏ hàng">
+                    <svg viewBox="0 0 32 32" aria-hidden="true">
+                        <path d="M4 6h3l3.2 15.1a2 2 0 0 0 2 1.6h12.2a2 2 0 0 0 1.9-1.4L29 11H9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+                        <circle cx="13" cy="27" r="1.8" fill="currentColor"/>
+                        <circle cx="24" cy="27" r="1.8" fill="currentColor"/>
+                    </svg>
+                    
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="categories" aria-labelledby="categories-title">
+            <div class="section-heading">
+                <div>
+                    <h1 id="categories-title">Mua sắm theo danh mục</h1>
+                    <p>Phụ kiện công nghệ &amp; sản phẩm chăm sóc cá nhân</p>
+                </div>
+                <a class="view-all" href="#categories" data-reset-filters>Xem tất cả <span aria-hidden="true">→</span></a>
+            </div>
+            <p class="search-status" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="category-grid" id="categories">
+                <article class="category-card" data-product-category="keyboard" data-product-department="11035954">
+                    <div class="image-box">
+                        <img src="images/2.jpg" alt="Bàn phím cơ nhiều màu">
+                    </div>
+                    <div class="product-info">
+                        <h2>Bàn phím cơ mini RGB</h2>
+                        <p class="product-description">Bàn phím gaming nhỏ gọn, đèn LED nhiều màu</p>
+                        <div class="price-row">
+                            <span class="old-price">890.000đ</span>
+                            <span class="discount-label">-30%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">623.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Gõ êm, đèn đẹp!”</span>
+                                <cite>— Minh Anh</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating" aria-label="Đánh giá 4,9 trên 5">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>4.9</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 1,2k</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="mouse" data-product-department="11035954">
+                    <div class="image-box">
+                        <img src="images/3.jpg" alt="Chuột máy tính không dây">
+                    </div>
+                    <div class="product-info">
+                        <h2>Chuột không dây tiện lợi</h2>
+                        <p class="product-description">Thiết kế công thái học, kết nối ổn định</p>
+                        <div class="price-row">
+                            <span class="old-price">350.000đ</span>
+                            <span class="discount-label">-25%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">262.500đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Nhẹ, rê rất mượt.”</span>
+                                <cite>— Hoàng Nam</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating" aria-label="Đánh giá 4,8 trên 5">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>4.8</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 856</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="lighting" data-product-department="11036971">
+                    <div class="image-box">
+                        <img src="images/4.jpg" alt="Đèn bàn LED">
+                    </div>
+                    <div class="product-info">
+                        <h2>Đèn bàn LED chống chói</h2>
+                        <p class="product-description">Ánh sáng dịu mắt, phù hợp học tập và làm việc</p>
+                        <div class="price-row">
+                            <span class="old-price">450.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">360.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Sáng dịu, dễ học.”</span>
+                                <cite>— Thu Hà</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating" aria-label="Đánh giá 4,9 trên 5">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>4.9</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 642</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="audio" data-product-department="11036132">
+                    <div class="image-box">
+                        <img src="images/1.jpg" alt="Tai nghe chụp tai không dây">
+                    </div>
+                    <div class="product-info">
+                        <h2>Tai nghe chụp tai không dây</h2>
+                        <p class="product-description">Đệm tai êm, thiết kế gấp gọn tiện mang theo</p>
+                        <div class="price-row">
+                            <span class="old-price">790.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">632.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Đeo êm, âm tốt.”</span>
+                                <cite>— Bảo Ngọc</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating" aria-label="Đánh giá 4,8 trên 5">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>4.8</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 973</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+                <article class="category-card" data-product-category="face-cream" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/5.jpg" alt="Kem dưỡng da Cocoon" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Kem dưỡng ẩm Cocoon</h2>
+                        <p class="product-description">Kem dưỡng dạng hũ cho bước chăm sóc da hằng ngày</p>
+                        <div class="price-row">
+                            <span class="old-price">320.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">256.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Chất kem mềm, dễ tán, dưỡng ẩm tốt.”</span>
+                                <cite>— Phương Trinh</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating" aria-label="Đánh giá 4,9 trên 5">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>4.9</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 899</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="body-cream" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/6.jpg" alt="Yogurt Vani" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Yogurt Vani thơm ngậy</h2>
+                        <p class="product-description">Thơm, mịn, beo béo"
+                        </p>
+                        <div class="price-row">
+                            <span class="old-price">180.000đ</span>
+                            <span class="discount-label">-25%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">135.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Ngon lắm, thơm, mịn, ăn hợp trái cây sấy.”</span>
+                                <cite>— Traitimbanggia_113</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★☆</span>
+                            <span>4.6</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 810</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="hair-care" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/7.jpg" alt="Bộ chăm sóc tóc ARKIVE" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Bộ chăm sóc tóc ARKIVE</h2>
+                        <p class="product-description">Bộ sản phẩm chăm sóc tóc với thiết kế dành cho da dầu</p>
+                        <div class="price-row">
+                            <span class="old-price">650.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">520.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Phù hợp với da dầu, sẽ mua lại”</span>
+                                <cite>— HieuThuHai
+                                </cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★☆</span>
+                            <span>4.6</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 16k</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="facial-cleanser" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/8.jpg" alt="Sữa rửa mặt O’GULIA" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Sữa rửa mặt O’GULIA</h2>
+                        <p class="product-description">Tuýp sữa rửa mặt cho quy trình chăm sóc da</p>
+                        <div class="price-row">
+                            <span class="old-price">250.000đ</span>
+                            <span class="discount-label">-30%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">292.500đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Rửa mặt không bị kích ứng da.”</span>
+                                <cite>— Cortis</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 12</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="sleeping-mask" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/9.jpg" alt="Bộ chăm sóc da Sulwhasoo" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Bộ chăm sóc da Sulwhasoo</h2>
+                        <p class="product-description">Bộ sản phẩm dưỡng da và mặt nạ dạng tuýp</p>
+                        <div class="price-row">
+                            <span class="old-price">1.200.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">960.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Bao bì đẹp, bộ sản phẩm tiện.”</span>
+                                <cite>— Sơn Tùng MTP</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>5.0</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 1.7k</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="toner" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/10.jpg" alt="Nước bí đao cân bằng da Cocoon" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Nước bí đao cân bằng da Cocoon</h2>
+                        <p class="product-description">Toner bí đao cho bước chăm sóc da sau làm sạch</p>
+                        <div class="price-row">
+                            <span class="old-price">195.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">156.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Okeokeoke.”</span>
+                                <cite>— LowG</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span>5.0</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 10.6k</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="recovery-serum" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/11.jpg" alt="Serum Story Skin 3.1" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Serum Story Skin 3.1</h2>
+                        <p class="product-description">Tinh chất dưỡng da dạng chai với ống nhỏ giọt</p>
+                        <div class="price-row">
+                            <span class="old-price">390.000đ</span>
+                            <span class="discount-label">-25%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">292.500đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Ống nhỏ giọt rất tiện.”</span>
+                                <cite>— Binhtruonglui</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★☆</span>
+                            <span>4.6</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 16k</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="category-card" data-product-category="centella-serum" data-product-department="11036279">
+                    <div class="image-box">
+                        <img src="images/12.jpg" alt="Serum rau má dưỡng da" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h2>Serum rau má dưỡng da</h2>
+                        <p class="product-description">Tinh chất rau má với thiết kế chai thủy tinh 30 ml</p>
+                        <div class="price-row">
+                            <span class="old-price">280.000đ</span>
+                            <span class="discount-label">-20%</span>
+                        </div>
+                        <div class="price-review-row">
+                            <p class="current-price">224.000đ</p>
+                            <blockquote class="customer-review">
+                                <span>“Thiết kế chai xinh, dễ dùng.”</span>
+                                <cite>— Lngshot4sho</cite>
+                            </blockquote>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★☆</span>
+                            <span>4.6</span>
+                            <span class="rating-divider">|</span>
+                            <span>Đã bán 744</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="action-button view-button" type="button">Xem sản phẩm</button>
+                            <button class="action-button buy-button" type="button">Mua ngay</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="empty-state" hidden>
+                <h2>Chưa tìm thấy sản phẩm</h2>
+                <p>Thử từ khóa khác hoặc xem lại tất cả sản phẩm nhé.</p>
+                <button class="action-button view-button" type="button" data-reset-filters>Xem tất cả sản phẩm</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer" id="site-footer">
+        <div class="footer-inner">
+            <div class="footer-columns">
+                <section class="footer-column" aria-labelledby="footer-service">
+                    <h2 id="footer-service">Chăm sóc khách hàng</h2>
+                    <ul>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Trung tâm trợ giúp</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79180" target="_blank" rel="noopener noreferrer">Hướng dẫn mua hàng</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79197" target="_blank" rel="noopener noreferrer">Hướng dẫn thanh toán</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79308" target="_blank" rel="noopener noreferrer">Theo dõi đơn hàng</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77250" target="_blank" rel="noopener noreferrer">Vận chuyển</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/189473" target="_blank" rel="noopener noreferrer">Trả hàng &amp; hoàn tiền</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79336" target="_blank" rel="noopener noreferrer">Voucher &amp; mã giảm giá</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79647" target="_blank" rel="noopener noreferrer">Câu hỏi thường gặp</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Liên hệ Shopee</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Chính sách bảo hành</a></li>
+                    </ul>
+                </section>
+                <section class="footer-column" aria-labelledby="footer-about">
+                    <h2 id="footer-about">Về Shopee</h2>
+                    <ul>
+                        <li><a href="https://help.shopee.vn/portal/4/article/79422" target="_blank" rel="noopener noreferrer">Giới thiệu về Shopee</a></li>
+                        <li><a href="https://shopee.vn/blog/" target="_blank" rel="noopener noreferrer">Shopee Blog</a></li>
+                        <li><a href="https://banhang.shopee.vn/" target="_blank" rel="noopener noreferrer">Kênh người bán</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77243" target="_blank" rel="noopener noreferrer">Điều khoản dịch vụ</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77244" target="_blank" rel="noopener noreferrer">Chính sách bảo mật</a></li>
+                        <li><a href="https://help.shopee.vn/portal/4/article/77251" target="_blank" rel="noopener noreferrer">Chính sách trả hàng</a></li>
+                    </ul>
+                </section>
+                <div class="footer-column footer-partners">
+                    <section aria-labelledby="footer-payment">
+                        <h2 id="footer-payment">Thanh toán</h2>
+                        <ul class="partner-grid" aria-label="Các phương thức thanh toán">
+                            <li class="partner-badge visa">VISA</li>
+                            <li class="partner-badge"><img src="images/footer/mastercard.svg" alt="Mastercard" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge"><img src="images/footer/jcb.svg" alt="JCB" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge"><img src="images/footer/amex.svg" alt="American Express" width="48" height="27" loading="lazy"></li>
+                            <li class="partner-badge cod">COD</li>
+                            <li class="partner-badge installment">TRẢ GÓP <strong>0%</strong></li>
+                            <li class="partner-badge shopeepay">S<span>Pay</span></li>
+                            <li class="partner-badge paylater">SPayLater</li>
+                            <li class="partner-badge unionpay">UnionPay</li>
+                        </ul>
+                    </section>
+                    <section aria-labelledby="footer-shipping">
+                        <h2 id="footer-shipping">Đơn vị vận chuyển</h2>
+                        <ul class="partner-grid" aria-label="Các đơn vị vận chuyển">
+                            <li class="partner-badge spx">SPX<small>EXPRESS</small></li>
+                            <li class="partner-badge ghn">GHN</li>
+                            <li class="partner-badge viettel">Viettel<small>POST</small></li>
+                            <li class="partner-badge vnpost">Vietnam<small>POST</small></li>
+                            <li class="partner-badge grab">Grab<small>Express</small></li>
+                            <li class="partner-badge be">be</li>
+                            <li class="partner-badge ahamove">Ahamove</li>
+                            <li class="partner-badge best">BEST<small>EXPRESS</small></li>
+                            <li class="partner-badge greensm">GREEN SM</li>
+                        </ul>
+                    </section>
+                </div>
+                <section class="footer-column" aria-labelledby="footer-social">
+                    <h2 id="footer-social">Theo dõi Shopee</h2>
+                    <ul class="social-links">
+                        <li><a href="https://www.facebook.com/ShopeeVN" target="_blank" rel="noopener noreferrer"><span class="social-symbol facebook" aria-hidden="true">f</span>Facebook</a></li>
+                        <li><a href="https://www.instagram.com/shopee_vn/" target="_blank" rel="noopener noreferrer"><svg class="social-symbol" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7"/></svg>Instagram</a></li>
+                        <li><a href="https://www.linkedin.com/company/shopee/" target="_blank" rel="noopener noreferrer"><span class="social-symbol linkedin" aria-hidden="true">in</span>LinkedIn</a></li>
+                    </ul>
+                </section>
+                <section class="footer-column" aria-labelledby="footer-app">
+                    <h2 id="footer-app">Tải ứng dụng Shopee</h2>
+                    <div class="app-download">
+                        <a class="app-qr" href="https://shopee.vn/web" target="_blank" rel="noopener noreferrer" aria-label="Tải ứng dụng Shopee"><img src="images/footer/app-qr.png" width="104" height="104" alt="Mã QR mở trang tải ứng dụng Shopee" loading="lazy"></a>
+                        <div class="app-stores">
+                            <a class="store-badge" href="https://apps.apple.com/vn/app/id959841449" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.9 12.7c0-2 1.6-3 1.7-3.1-1-1.5-2.5-1.7-3.1-1.7-1.3-.1-2.5.8-3.2.8s-1.7-.8-2.8-.7c-1.4 0-2.7.8-3.4 2-1.5 2.5-.4 6.3 1 8.4.7 1 1.4 2 2.5 2s1.5-.7 2.8-.7 1.7.7 2.9.7 1.8-.9 2.4-1.9c.8-1.1 1.1-2.2 1.1-2.3-.1 0-1.9-.8-1.9-3.5ZM14.9 6.5c.6-.8 1-1.8.9-2.8-.9 0-2 .6-2.7 1.4-.6.6-1.1 1.7-.9 2.7 1 .1 2.1-.5 2.7-1.3Z" fill="currentColor"/></svg><span>App Store</span></a>
+                            <a class="store-badge" href="https://play.google.com/store/apps/details?id=com.shopee.vn" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 3 10 9L4 21Z" fill="#32b8e8"/><path d="m4 3 13 7-3 2Z" fill="#39cb76"/><path d="m14 12 3-2 4 2-4 2Z" fill="#f9cd45"/><path d="m4 21 10-9 3 2Z" fill="#ed5164"/></svg><span>Google Play</span></a>
+                            <a class="store-badge" href="https://shopee.vn/web" target="_blank" rel="noopener noreferrer"><span class="huawei-icon" aria-hidden="true">H</span><span>AppGallery</span></a>
+                        </div>
+                    </div>
+                    <p class="download-note">Quét mã để tải ứng dụng.</p>
+                </section>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Shopee. Tất cả các quyền được bảo lưu.</p>
+                <p class="footer-regions">Quốc gia &amp; Khu vực: <span>Argentina</span><span class="region-separator" aria-hidden="true">|</span><span>Singapore</span><span class="region-separator" aria-hidden="true">|</span><span>Indonesia</span><span class="region-separator" aria-hidden="true">|</span><span>Thái Lan</span><span class="region-separator" aria-hidden="true">|</span><span>Malaysia</span><span class="region-separator" aria-hidden="true">|</span><span>Việt Nam</span><span class="region-separator" aria-hidden="true">|</span><span>Philippines</span><span class="region-separator" aria-hidden="true">|</span><span>Brazil</span><span class="region-separator" aria-hidden="true">|</span><span>México</span><span class="region-separator" aria-hidden="true">|</span><span>Đài Loan</span></p>
+            </div>
+        </div>
+        <div class="footer-legal">
+            <div class="footer-inner">
+                <nav class="policy-links" aria-label="Chính sách Shopee">
+                    <a href="https://help.shopee.vn/portal/4/article/77244" target="_blank" rel="noopener noreferrer">Chính sách bảo mật</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77243" target="_blank" rel="noopener noreferrer">Quy chế hoạt động</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77250" target="_blank" rel="noopener noreferrer">Chính sách vận chuyển</a>
+                    <a href="https://help.shopee.vn/portal/4/article/77251" target="_blank" rel="noopener noreferrer">Chính sách trả hàng &amp; hoàn tiền</a>
+                </nav>
+                <div class="footer-certifications">
+                    <a class="bct-badge" href="https://dichvucong.online.gov.vn/Website/chi-tiet-18367" target="_blank" rel="noopener noreferrer" aria-label="Thông tin đăng ký website Shopee tại Bộ Công Thương"></a>
+                    <a class="bct-badge" href="https://dichvucong.online.gov.vn/WebReport/OwnerDetail/413010" target="_blank" rel="noopener noreferrer" aria-label="Thông tin chủ sở hữu website và ứng dụng Shopee"></a>
+                </div>
+                <p class="company-name">Công ty TNHH Shopee</p>
+                <p>Địa chỉ: Tầng 4-5-6, Tòa nhà Capital Place, số 29 đường Liễu Giai, Phường Ngọc Hà, Thành phố Hà Nội, Việt Nam.</p>
+                <p>Chăm sóc khách hàng: <a href="https://help.shopee.vn/portal/4" target="_blank" rel="noopener noreferrer">Trung tâm trợ giúp Shopee</a></p>
+                <p>Mã số doanh nghiệp: 0106773786, cấp lần đầu ngày 10/02/2015.</p>
+            </div>
+        </div>
+    </footer>
+<script>
+async function synchronizeLayout() {
+    if (!document.body.id) document.body.id = 'page-top';
+    const header = document.querySelector('.site-header');
+    if (header?.dataset.layout === 'shopee-reference' && document.querySelector('.site-footer')) return;
+    if (location.protocol === 'file:') return;
+
+    try {
+        const response = await fetch('./shared-layout.html', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Không tải được bố cục dùng chung.');
+        const layout = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const nextHeader = layout.querySelector('#shared-header')?.content.firstElementChild;
+        const nextFooter = layout.querySelector('#shared-footer')?.content.firstElementChild;
+        if (!nextHeader || !nextFooter) throw new Error('Bố cục dùng chung chưa đầy đủ.');
+        if (header) header.replaceWith(nextHeader.cloneNode(true));
+        else document.body.prepend(nextHeader.cloneNode(true));
+        const footer = document.querySelector('.site-footer');
+        if (footer) footer.replaceWith(nextFooter.cloneNode(true));
+        else document.body.append(nextFooter.cloneNode(true));
+    } catch (error) {
+        console.warn('Không thể đồng bộ header/footer:', error);
+    }
+}
+
+async function initializeStorefront() {
+    await synchronizeLayout();
+
+    const searchForm = document.querySelector('.search-form');
+    const searchInput = document.querySelector('#site-search');
+    const productCards = [...document.querySelectorAll('[data-product-category]')];
+    const categoryButtons = [...document.querySelectorAll('[data-category]')];
+    const headerMenus = [...document.querySelectorAll('.header-menu')];
+    const searchStatus = document.querySelector('.search-status');
+    const emptyState = document.querySelector('.empty-state');
+    let selectedCategory = 'all';
+
+    function normalizeText(value) {
+        return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+    }
+
+    function filterProducts() {
+        const query = normalizeText(searchInput.value.trim());
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const productText = `${card.querySelector('h2').textContent} ${card.querySelector('.product-description').textContent}`;
+            const matchesCategory = selectedCategory === 'all' || card.dataset.productDepartment === selectedCategory;
+            card.hidden = !matchesCategory || !normalizeText(productText).includes(query);
+            if (!card.hidden) visibleCount += 1;
+        });
+
+        categoryButtons.forEach(button => {
+            button.setAttribute('aria-pressed', String(button.dataset.category === selectedCategory));
+        });
+
+        const categoryName = categoryButtons.find(button => button.dataset.category === selectedCategory).dataset.categoryLabel;
+        const filters = [];
+        if (selectedCategory !== 'all') filters.push(categoryName);
+        if (searchInput.value.trim()) filters.push(`“${searchInput.value.trim()}”`);
+        searchStatus.textContent = filters.length ? `${visibleCount} sản phẩm · ${filters.join(' · ')}` : '';
+        emptyState.hidden = visibleCount > 0;
+    }
+
+    function closeMenus() {
+        headerMenus.forEach(menu => { menu.open = false; });
+    }
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            selectedCategory = button.dataset.category;
+            filterProducts();
+            closeMenus();
+            // Keep keyboard focus on the trigger after selecting a category.
+            button.closest('details').querySelector('summary').focus();
+        });
+    });
+
+    searchForm.addEventListener('submit', event => {
+        event.preventDefault();
+        closeMenus();
+        filterProducts();
+    });
+
+    // Clearing the native search control also restores the current category.
+    searchInput.addEventListener('input', filterProducts);
+
+    document.querySelectorAll('[data-reset-filters]').forEach(control => {
+        control.addEventListener('click', event => {
+            event.preventDefault();
+            selectedCategory = 'all';
+            searchInput.value = '';
+            filterProducts();
+            closeMenus();
+            searchInput.focus();
+        });
+    });
+
+    headerMenus.forEach(menu => {
+        menu.addEventListener('toggle', () => {
+            if (menu.open) headerMenus.forEach(other => { if (other !== menu) other.open = false; });
+        });
+    });
+
+    document.addEventListener('click', event => {
+        if (!event.target.closest('.header-menu')) closeMenus();
+    });
+
+    document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        const openMenu = headerMenus.find(menu => menu.open);
+        if (openMenu) {
+            closeMenus();
+            openMenu.querySelector('summary').focus();
+        }
+    });
+
+    const catalogGrid = document.querySelector('.catalog-grid');
+    const catalogArrows = [...document.querySelectorAll('[data-scroll]')];
+
+    function updateCatalogArrows() {
+        const maxScroll = catalogGrid.scrollWidth - catalogGrid.clientWidth;
+        catalogArrows.forEach(arrow => {
+            arrow.hidden = arrow.dataset.scroll === '-1'
+                ? catalogGrid.scrollLeft <= 1
+                : catalogGrid.scrollLeft >= maxScroll - 1;
+        });
+    }
+
+    catalogArrows.forEach(arrow => {
+        arrow.addEventListener('click', () => {
+            catalogGrid.scrollBy({
+                left: Number(arrow.dataset.scroll) * catalogGrid.clientWidth * 0.8,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+            });
+        });
+    });
+
+    catalogGrid.addEventListener('scroll', updateCatalogArrows, { passive: true });
+    new ResizeObserver(updateCatalogArrows).observe(catalogGrid);
+    document.querySelector('.product-menu').addEventListener('toggle', updateCatalogArrows);
+
+}
+
+initializeStorefront();
+
+</script>
+</body>
+</html>
